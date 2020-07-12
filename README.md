@@ -1,6 +1,9 @@
 ## Fight COVID - React App
 Application created with React. We are using [https://covid19api.com/](https://covid19api.com/) to get real data about COVID19 informations.
 
+### Demo
+[https://laurindo.github.io/fight-covid/](https://laurindo.github.io/fight-covid/)
+
 ##### Let's start - First of all - check you environment:
 
 1 - See if you have docker installed 
