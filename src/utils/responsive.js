@@ -1,0 +1,1 @@
+export const isMobile = breakpoint => ["xs"].includes(breakpoint);

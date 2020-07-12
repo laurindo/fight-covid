@@ -1,25 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
+import React from "react";
+import {createBrowserHistory} from "history";
+import {CaseProvider} from "./containers/cases/CaseContext";
+import Container from "./components/Container";
+import BrowserRouter from "./Router";
+
+const history = createBrowserHistory();
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <MuiPickersUtilsProvider utils={MomentUtils}>
+      <Container>
+        <CaseProvider>
+          <BrowserRouter history={history}/>
+        </CaseProvider>
+      </Container>
+    </MuiPickersUtilsProvider>
   );
 }
 
