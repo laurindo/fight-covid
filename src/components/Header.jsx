@@ -9,7 +9,10 @@ const useStyles = makeStyles((theme) => ({
   container: {
     color: "#26c4cc"
   },
-  logo: {
+  link: {
+    textDecoration: "none"
+  },
+  name: {
     color: red
   }
 }));
@@ -20,7 +23,9 @@ function Header({children, ...props}) {
   const Title = isMobile ? P2 : H5;
   return (
     <Container padding={0} className={classes.container} justify={isMobile ? "center" : "space-between"}>
-      <Title color="white" nunito bold>Fight <span className={classes.logo}>COVID</span></Title>
+      <a href="/" className={classes.link}>
+        <Title color="white" nunito bold>Fight <span className={classes.name}>COVID</span></Title>
+      </a>
     </Container>
   );
 }

@@ -51,3 +51,7 @@ The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
 ### `yarn test`
+
+
+### NOTE
+* I've tried to add cypress for e2e (end to end test) but my ubuntu is not enough space to run docker compose and prepare env. :(
