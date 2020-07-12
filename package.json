@@ -2,6 +2,7 @@
   "name": "covid-chart",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://laurindo.github.io/fight-covid",
   "dependencies": {
     "@date-io/moment": "1.3.9",
     "@material-ui/core": "^4.11.0",
@@ -14,6 +15,7 @@
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
     "date-fns": "2.14.0",
+    "gh-pages": "^3.1.0",
     "history": "^5.0.0",
     "moment": "2.26.0",
     "qs": "^6.9.4",
@@ -27,7 +29,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"

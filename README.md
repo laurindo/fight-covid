@@ -1,5 +1,5 @@
 ## Fight COVID - React App
-Application created with React. We are using [https://covid19api.com/](https://covid19api.com/) to get real data about COVID19 infomrations.
+Application created with React. We are using [https://covid19api.com/](https://covid19api.com/) to get real data about COVID19 informations.
 
 ##### Let's start - First of all - check you environment:
 
