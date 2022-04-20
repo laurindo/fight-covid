@@ -1,8 +1,13 @@
-## Fight COVID - React App
+![image](https://user-images.githubusercontent.com/2501144/164251433-1c929c85-c0ac-490b-9c4e-26d8b74fce71.png)
+
+
+# Fight COVID - React App
 Application created with React. We are using [https://covid19api.com/](https://covid19api.com/) to get real data about COVID19 informations.
 
-### Demo
+## Demo
 [https://laurindo.github.io/fight-covid/](https://laurindo.github.io/fight-covid/)
+
+---
 
 ##### Let's start - First of all - check you environment:
 
