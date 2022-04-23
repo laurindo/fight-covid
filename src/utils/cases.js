@@ -9,9 +9,9 @@ export const lastCases = cases => {
 
 export const totalCasesByDate = (cases = []) => {
   return {
-    confirmed: cases[0].Confirmed || 0,
-    deaths: cases[0].Deaths || 0,
-    recovered: cases[0].Recovered || 0
+    confirmed: cases?.[0]?.Confirmed || 0,
+    deaths: cases?.[0]?.Deaths || 0,
+    recovered: cases?.[0]?.Recovered || 0
   }
 };
 

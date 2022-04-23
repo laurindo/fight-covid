@@ -1,16 +1,16 @@
 import Chip from "@material-ui/core/Chip";
 import Grid from "@material-ui/core/Grid";
-import {makeStyles} from "@material-ui/core/styles";
-import {DatePicker} from "@material-ui/pickers";
+import { makeStyles } from "@material-ui/core/styles";
+import { DatePicker } from "@material-ui/pickers";
 import qs from "qs";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import ListCase from "../../containers/cases/ListCase";
-import {getDate, getCurrentDate, formatDate} from "../../utils/date";
+import { getDate, getCurrentDate, formatDate } from "../../utils/date";
 import Autocomplete from "../../components/Autocomplete";
 import Cases from "../../containers/cases/Cases";
-import {API} from "../../services/API";
-import {useFetch} from "../../services/useFetch";
-import {useQuery} from "../../utils/query";
+import { API } from "../../services/API";
+import { useFetch } from "../../services/useFetch";
+import { useQuery } from "../../utils/query";
 
 const useStyles = makeStyles({
   container: {
@@ -31,7 +31,7 @@ const useStyles = makeStyles({
   }
 });
 
-function FilterCase({value, history}) {
+function FilterCase({ value, history }) {
   const classes = useStyles();
   const query = useQuery();
   const [isRangeDate, setIsRangeDate] = useState(false);
@@ -45,7 +45,12 @@ function FilterCase({value, history}) {
   const head = ["Date", "Confirmed", "Deaths", "Recovered"];
 
   const createQuery = (from, to) => {
-    history.push({search: qs.stringify({type: "date", country, ...getDateFilters(from, to)}, {allowDots: true, skipNulls: true})});
+    history.push({
+      search: qs.stringify(
+        { type: "date", country, ...getDateFilters(from, to) },
+        { allowDots: true, skipNulls: true }
+      )
+    });
   };
 
   const filterByCountry = (e, value) => {
@@ -54,14 +59,14 @@ function FilterCase({value, history}) {
     return history.push(`?type=country&country=${value.Country}`);
   };
 
-  const changeDateFrom = e => {
+  const changeDateFrom = (e) => {
     const from = getDate(e);
     const to = getCurrentDate(from);
     setFrom(from);
     createQuery(from, to);
   };
 
-  const changeDateTo = e => {
+  const changeDateTo = (e) => {
     const to = getDate(e);
     setTo(to);
     setIsRangeDate(true);
@@ -88,13 +93,13 @@ function FilterCase({value, history}) {
   };
 
   const deleteFrom = () => {
-    setFrom("");
+    setFrom('');
     createQuery();
   };
 
   const deleteTo = () => {
     setIsRangeDate(false);
-    setTo("");
+    setTo('');
     createQuery();
   };
 
@@ -108,22 +113,54 @@ function FilterCase({value, history}) {
 
   return (
     <Grid item xs={12} className={classes.container}>
-      <Grid container direction="column" align="center" justify="center" className={classes.filters}>
+      <Grid
+        container
+        direction="column"
+        align="center"
+        justify="center"
+        className={classes.filters}
+      >
         <Grid className={classes.autocomplete}>
-          <Autocomplete label="Countries" value={countries.data} onChange={filterByCountry}/>
+          <Autocomplete
+            label="Countries"
+            value={countries.data}
+            onChange={filterByCountry}
+          />
         </Grid>
         <Grid>
-          <DatePicker label="From" value={from} onChange={changeDateFrom}/>
-          <DatePicker label="To" value={to} onChange={changeDateTo}/>
+          <DatePicker label="From" value={from} onChange={changeDateFrom} />
+          <DatePicker label="To" value={to} onChange={changeDateTo} />
         </Grid>
       </Grid>
       <Grid align="center" justify="center">
-        {country && <Chip label={`Country (${country})`} onDelete={deleteCountry} {...getPropsChip()} />}
-        {from && <Chip label={`From (${formatDate(from)})`} onDelete={deleteFrom} {...getPropsChip()} />}
-        {to && isRangeDate && <Chip label={`To (${formatDate(to)})`} onDelete={deleteTo} {...getPropsChip()} />}
+        {country && (
+          <Chip
+            label={`Country (${country})`}
+            onDelete={deleteCountry}
+            {...getPropsChip()}
+          />
+        )}
+        {from && (
+          <Chip
+            label={`From (${formatDate(from)})`}
+            onDelete={deleteFrom}
+            {...getPropsChip()}
+          />
+        )}
+        {to && isRangeDate && (
+          <Chip
+            label={`To (${formatDate(to)})`}
+            onDelete={deleteTo}
+            {...getPropsChip()}
+          />
+        )}
       </Grid>
-      {filteredCases.data && <Cases title={country} value={filteredCases.data} type={getType()}/>}
-      {isRangeDate && filteredCases.data && <ListCase head={head} rows={filteredCases.data}/>}
+      <Cases
+        title={country}
+        value={filteredCases?.data || []}
+        type={getType()}
+      />
+      <ListCase head={head} rows={filteredCases.data} />
     </Grid>
   );
 }
