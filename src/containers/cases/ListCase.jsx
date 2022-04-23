@@ -1,3 +1,4 @@
+import React from "react";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -7,7 +8,8 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { formatValues } from "../../utils/date";
-import React from "react";
+import { useTable, usePagination } from 'react-table';
+import Pagination from '../../components/Pagination';
 
 const useStyles = makeStyles({
   container: {
@@ -29,34 +31,101 @@ const useStyles = makeStyles({
 
 function ListCase(props) {
   const classes = useStyles();
+  
+  const columns = React.useMemo(
+    () => [
+      {
+        Header: 'Date',
+        accessor: 'Date',
+        Cell: props => formatValues('Date', props.value)
+      },
+      {
+        Header: 'Confirmed',
+        accessor: 'Confirmed',
+      },
+      {
+        Header: 'Deaths',
+        accessor: 'Deaths',
+      },
+      {
+        Header: 'Recovered',
+        accessor: 'Recovered',
+      },
+    ],
+    []
+  )
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    prepareRow,
+    page,
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
+    setPageSize,
+    state: { pageIndex, pageSize },
+  } = useTable(
+    {
+      columns,
+      data: props?.rows || [],
+      initialState: { pageIndex: 0 },
+    },
+    usePagination
+  )
+
   return (
     <Grid item xs={12} className={classes.container}>
       <TableContainer>
-        <Table className={classes.table} aria-label="simple table">
+        <Table className={classes.table} aria-label="simple table"  {...getTableProps()}>
           <TableHead>
-            <TableRow>
-              {props.head.map((title, i) => (
-                <TableCell key={i}>{title}</TableCell>
-              ))}
-            </TableRow>
+            {headerGroups.map(headerGroup => (
+              <TableRow {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map(column => (
+                  <TableCell {...column.getHeaderProps()}>{column.render('Header')}</TableCell>
+                ))}
+              </TableRow>
+            ))}
           </TableHead>
-          {props.rows && props.rows.length ? (
-            <TableBody>
-              {props.rows.map(row => (
-                <TableRow key={row.name}>
-                  {props.head.map((title, i) => {
-                    const result = formatValues(title, row[title])
-                    debugger;
-                    return (
-                      <TableCell key={i}>{result}</TableCell>
-                    );
-                  })}
-                </TableRow>
-              ))}
+
+          {page.length ? (
+            <TableBody {...getTableBodyProps()}>
+              {page.map(row => {
+                prepareRow(row)
+                return (
+                  <TableRow key={row.name} {...row.getRowProps()}>
+                    {row.cells.map((cell, i) => {
+                      return (
+                        <TableCell key={i} {...cell.getCellProps()}>{cell.render('Cell')}</TableCell>
+                      );
+                    })}
+                  </TableRow>
+                )
+              })}
             </TableBody>
           ) : null}
         </Table>
-        {!props?.rows?.length && <div className={classes.containerNoData}>no data</div>}
+
+        {!page?.length && <div className={classes.containerNoData}>no data</div>}
+
+        <Pagination
+          canPreviousPage={canPreviousPage}
+          canNextPage={canNextPage}
+          pageOptions={pageOptions}
+          pageCount={pageCount}
+          gotoPage={gotoPage}
+          nextPage={nextPage}
+          previousPage={previousPage}
+          setPageSize={setPageSize}
+          pageIndex={pageIndex}
+          pageSize={pageSize}
+        />
+
       </TableContainer>
     </Grid>
   );

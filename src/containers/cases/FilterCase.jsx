@@ -128,8 +128,8 @@ function FilterCase({ value, history }) {
           />
         </Grid>
         <Grid>
-          <DatePicker label="From" value={from} onChange={changeDateFrom} />
-          <DatePicker label="To" value={to} onChange={changeDateTo} />
+          <DatePicker label="From" value={from} onChange={changeDateFrom} error={false} invalidDateMessage={false} />
+          <DatePicker label="To" value={to} onChange={changeDateTo} error={false} invalidDateMessage={false} />
         </Grid>
       </Grid>
       <Grid align="center" justify="center">
@@ -160,7 +160,7 @@ function FilterCase({ value, history }) {
         value={filteredCases?.data || []}
         type={getType()}
       />
-      <ListCase head={head} rows={filteredCases.data} />
+      {filteredCases?.data?.length && <ListCase head={head} rows={filteredCases.data} />}
     </Grid>
   );
 }
