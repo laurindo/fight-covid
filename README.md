@@ -2,7 +2,7 @@
 
 
 # Fight COVID - React App
-Application created with React. We are using [https://covid19api.com/](https://covid19api.com/) to get real data about COVID19 informations.
+Application created with React. We are using [https://covid19-brazil-api.now.sh/api/report/v1/](https://covid19-brazil-api.now.sh/api/report/v1) to get real data about COVID19 informations.
 
 ## Demo
 [https://laurindo.github.io/fight-covid/](https://laurindo.github.io/fight-covid/)
