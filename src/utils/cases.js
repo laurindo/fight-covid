@@ -1,24 +1,27 @@
 export const lastCases = cases => {
-  const lastResults = cases.length ? cases[cases.length - 1] : {Confirmed: 0, Deaths: 0, Recovered: 0};
+  const lastResults = cases ? cases : {cases: 0, deaths: 0, suspects: 0, refuses: 0};
   return {
-    confirmed: lastResults.Confirmed,
-    deaths: lastResults.Deaths,
-    recovered: lastResults.Recovered
+    suspects: lastResults.suspects || 0,
+    deaths: lastResults.deaths || 0,
+    refuses: lastResults.refuses || 0,
+    cases: lastResults.cases|| 0
   };
 };
 
 export const totalCasesByDate = (cases = []) => {
   return {
-    confirmed: cases?.[0]?.Confirmed || 0,
-    deaths: cases?.[0]?.Deaths || 0,
-    recovered: cases?.[0]?.Recovered || 0
+    cases: cases?.[0]?.cases || 0,
+    deaths: cases?.[0]?.deaths || 0,
+    refuses: cases?.[0]?.refuses || 0,
+    suspects: cases?.[0]?.suspects || 0
   }
 };
 
 export const totalCases = cases => {
   return {
-    confirmed: cases.TotalConfirmed,
-    deaths: cases.TotalDeaths,
-    recovered: cases.TotalRecovered
+    cases: cases.cases,
+    deaths: cases.deaths,
+    suspects: cases.suspects,
+    refuses: cases.refuses,
   };
 };

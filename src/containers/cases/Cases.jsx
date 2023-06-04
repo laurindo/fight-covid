@@ -16,25 +16,36 @@ function Cases({title, value, type}) {
   let results = {};
 
   if (type === "rangeDate" || type === "country") {
-    results = lastCases(value);
+    results = lastCases(value.data);
   } else if (type === "date") {
-    results = totalCasesByDate(value);
+    results = totalCasesByDate(value.data);
   } else if (type === "all") {
-    results = totalCases(value);
+    results = value.data.reduce((acc, cur) => {
+      return {
+        deaths: acc.deaths + cur.deaths,
+        suspects: acc.suspects + cur.suspects,
+        cases: acc.cases + cur.cases,
+        refuses: acc.refuses + cur.refuses
+      }
+    }, { deaths: 0, suspects: 0, cases: 0, refuses: 0 });
   }
 
   const cards = [{
-    id: "confirmed",
-    title: "Active",
+    id: "cases",
+    title: "Cases",
     color: "primary1"
   }, {
     id: "deaths",
     title: "Deaths",
     color: "red"
   }, {
-    id: "recovered",
-    title: "Recovered",
+    id: "suspects",
+    title: "Suspects",
     color: "blue"
+  }, {
+    id: "refuses",
+    title: "Refuses",
+    color: "yellow"
   }];
 
   return (

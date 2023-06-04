@@ -31,6 +31,17 @@ const useStyles = makeStyles({
   }
 });
 
+const LIST_CITY = [{
+  label: 'Brazil',
+  value: 'brazil'
+}, {
+  label: 'United States',
+  value: 'United States'
+}, {
+  label: 'Canada',
+  value: 'Canada'
+}]
+
 function FilterCase({ value, history }) {
   const classes = useStyles();
   const query = useQuery();
@@ -39,15 +50,15 @@ function FilterCase({ value, history }) {
   const [from, setFrom] = useState(query.get("from") || "");
   const [to, setTo] = useState(query.get("to") || "");
 
-  const countries = useFetch("countries");
-  const filteredCases = useFetch(API.date(country, from, to));
+  // const countries = useFetch("countries");
+  const filteredCases = useFetch(API.date(country, from));
 
-  const head = ["Date", "Confirmed", "Deaths", "Recovered"];
+  const head = ["Date", "Cases", "Deaths", "Suspects", "Refuses"];
 
-  const createQuery = (from, to) => {
+  const createQuery = (from) => {
     history.push({
       search: qs.stringify(
-        { type: "date", country, ...getDateFilters(from, to) },
+        { type: "date", country, ...getDateFilters(from) },
         { allowDots: true, skipNulls: true }
       )
     });
@@ -55,22 +66,14 @@ function FilterCase({ value, history }) {
 
   const filterByCountry = (e, value) => {
     if (!value) return history.push("/");
-    setCountry(value.Country);
-    return history.push(`?type=country&country=${value.Country}`);
+    setCountry(value.value);
+    return history.push(`?type=country&country=${value.value}`);
   };
 
   const changeDateFrom = (e) => {
     const from = getDate(e);
-    const to = getCurrentDate(from);
     setFrom(from);
-    createQuery(from, to);
-  };
-
-  const changeDateTo = (e) => {
-    const to = getDate(e);
-    setTo(to);
-    setIsRangeDate(true);
-    createQuery(getDate(from), to);
+    createQuery(from);
   };
 
   const getType = () => {
@@ -79,12 +82,9 @@ function FilterCase({ value, history }) {
     return "country";
   };
 
-  const getDateFilters = (from, to) => {
+  const getDateFilters = (from) => {
     if (!from) return {};
-    return {
-      from,
-      to: isRangeDate ? to : getCurrentDate(from)
-    };
+    return { from };
   };
 
   const deleteCountry = () => {
@@ -94,12 +94,6 @@ function FilterCase({ value, history }) {
 
   const deleteFrom = () => {
     setFrom('');
-    createQuery();
-  };
-
-  const deleteTo = () => {
-    setIsRangeDate(false);
-    setTo('');
     createQuery();
   };
 
@@ -123,19 +117,18 @@ function FilterCase({ value, history }) {
         <Grid className={classes.autocomplete}>
           <Autocomplete
             label="Countries"
-            value={countries.data}
+            value={LIST_CITY}
             onChange={filterByCountry}
           />
         </Grid>
         <Grid>
           <DatePicker label="From" value={from} onChange={changeDateFrom} error={false} invalidDateMessage={false} />
-          <DatePicker label="To" value={to} onChange={changeDateTo} error={false} invalidDateMessage={false} />
         </Grid>
       </Grid>
       <Grid align="center" justify="center">
         {country && (
           <Chip
-            label={`Country (${country})`}
+            label={`Country (${country?.toUpperCase() || '-'})`}
             onDelete={deleteCountry}
             {...getPropsChip()}
           />
@@ -147,16 +140,9 @@ function FilterCase({ value, history }) {
             {...getPropsChip()}
           />
         )}
-        {to && isRangeDate && (
-          <Chip
-            label={`To (${formatDate(to)})`}
-            onDelete={deleteTo}
-            {...getPropsChip()}
-          />
-        )}
       </Grid>
       <Cases
-        title={country}
+        title={country.toUpperCase()}
         value={filteredCases?.data || []}
         type={getType()}
       />

@@ -33,7 +33,7 @@ function HomePage(props) {
           <H3 nunito capitalize noMargin color="white">let's help recover the earth, starts from us</H3>
           <P2 color="primary1">The outbreak of the coronavirus issue or called Covid-19 makes the Earth grieve.</P2>
         </Grid>
-        {allCases.data ? <Cases title="All Cases" value={allCases.data} type="all"/> : <Loading/>}
+        {allCases.data ? <Cases title="All Cases in Brazil" value={allCases.data} type="all"/> : <Loading/>}
       </Grid>
       <Grid item md={12} lg={4}>
         <AnimatedArea justify="center" align="center">

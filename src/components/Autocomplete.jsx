@@ -33,11 +33,10 @@ function Autocomplete(props) {
     <MuiAutocomplete
       id="combo-box-demo"
       options={props.value}
-      getOptionLabel={(option) => option.Country}
+      getOptionLabel={(option) => option.label}
       renderOption={(option) => (
         <React.Fragment>
-          <span>{countryToFlag(option.ISO2)}&nbsp;</span>
-          <span>{option.Country}</span>
+          <span>{option.label}</span>
         </React.Fragment>
       )}
       className={classes.input}
